@@ -113,29 +113,29 @@ lapply(varlist2, preprocess)
 #smpl.int <- (1:(time*acq.freq))/acq.freq  
 
 #binned_phases <- data.frame(matrix(NA,nrow=0,ncol=1201))
-#for(s in 1:ncol(dat0_preprocessed_fft)){
-#	test <- dat0_preprocessed_fft[,s]
+for(s in 1:ncol(dat0_preprocessed_fft)){
+	test <- dat0_preprocessed_fft[,s]
 
 	# extract magnitudes and phases
-#	magn <- Mod(test) # sqrt(Re(test)*Re(test)+Im(test)*Im(test))
-#	phase <- Arg(test) # atan(Im(test)/Re(test))
+	magn <- Mod(test) # sqrt(Re(test)*Re(test)+Im(test)*Im(test))
+	phase <- Arg(test) # atan(Im(test)/Re(test))
 
 	# select only first half of vectors
-#	magn.1 <- magn[1:(length(magn)/2)]
-#	phase.1 <- Arg(test)[1:(length(test)/2)]
+	magn.1 <- magn[1:(length(magn)/2)]
+	phase.1 <- Arg(test)[1:(length(test)/2)]
 
-#	phase_binned <- cut(phase.1,breaks=1200)
-#	blah2 <- as.data.frame(table(phase_binned))
-#	blah3 <- c(s,blah2$Freq)
-#	binned_phases <- rbind(binned_phases,blah3)
-#}
+	phase_binned <- cut(phase.1,breaks=1200)
+	blah2 <- as.data.frame(table(phase_binned))
+	blah3 <- c(s,blah2$Freq)
+	binned_phases <- rbind(binned_phases,blah3)
+}
 
-#set.seed(666)
-#tune.out<-tune(svm,Y~.,data=binned_phases,kernel="linear",ranges=list(cost=c(0.001,0.01,1,5,10,100)))
+set.seed(666)
+tune.out<-tune(svm,Y~.,data=binned_phases,kernel="linear",ranges=list(cost=c(0.001,0.01,1,5,10,100)))
 
-#bestmod <- tune.out%best.model
+bestmod <- tune.out%best.model
 
-#testdat <- data.frame(x=xtest, y=as.factor(ytest))
+testdat <- data.frame(x=xtest, y=as.factor(ytest))
 
-#ypred <- predict(bestmod, testdat)
+ypred <- predict(bestmod, testdat)
 
